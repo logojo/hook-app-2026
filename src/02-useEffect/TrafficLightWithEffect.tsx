@@ -1,4 +1,4 @@
-import { colors, useTrafficLight } from "../hooks/useTrafficLight";
+import { useTrafficLight } from "../hooks/useTrafficLight";
 
 
 export const TrafficLightWithEffect = () => {
