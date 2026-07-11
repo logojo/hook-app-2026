@@ -2,11 +2,12 @@
 // Es necesario componentes de Shadcn/ui
 // https://ui.shadcn.com/docs/installation/vite
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { SkipForward, Play } from 'lucide-react';
+import { set } from 'zod';
 
 const GAME_WORDS = [
   'REACT',
@@ -55,13 +56,12 @@ export const ScrambleWords = () => {
   const [maxSkips, setMaxSkips] = useState(3);
 
   const [isGameOver, setIsGameOver] = useState(false);
-  const [counter, setCounter] = useState(0);
 
   const handleGuessSubmit = (e: React.FormEvent) => {
     // Previene el refresh de la página
     e.preventDefault();
     // Implementar lógica de juego
-    setCounter( counter + 1);
+  
     if( guess === currentWord) {
         setPoints( points + 1)
     }else {
@@ -72,20 +72,14 @@ export const ScrambleWords = () => {
         setIsGameOver( true );
     }
 
-  
-
-    setCurrentWord( words[counter] );
-    setScrambledWord( scrambleWord(currentWord) );
+    setWords([ ...words.slice(1) ]);
     setGuess('');
 
   };
 
   const handleSkip = () => {
-
-   setCounter( counter + 1);
+   setWords( [ ...words.slice(1) ] );
    setSkipCounter( skipCounter + 1)
-   setCurrentWord( words[counter] );
-   setScrambledWord( scrambleWord(currentWord) );
 
    //todo saltar a la siguiente palabra
 
@@ -95,9 +89,14 @@ export const ScrambleWords = () => {
   const handlePlayAgain = () => {
     setWords( shuffleArray(GAME_WORDS) );
     setIsGameOver( false );
-    setCounter( 0 );
     
   };
+
+  useEffect(() => {
+    setCurrentWord( words[0] );
+    setScrambledWord( scrambleWord(words[0]) );
+  },[words])
+
 
   //! Si ya no hay palabras para jugar, se muestra el mensaje de fin de juego
   if (words.length === 0) {
