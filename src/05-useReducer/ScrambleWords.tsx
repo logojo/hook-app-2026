@@ -2,11 +2,15 @@
 // Es necesario componentes de Shadcn/ui
 // https://ui.shadcn.com/docs/installation/vite
 
+
 import React, { useEffect, useReducer } from 'react';
+
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { SkipForward, Play } from 'lucide-react';
+
 
 import confetti from 'canvas-confetti';
 
@@ -28,6 +32,7 @@ export const ScrambleWords = () => {
           maxAllowErrors,
           totalWords,
          } = state;
+
 
 
   useEffect(() => {
@@ -57,6 +62,7 @@ export const ScrambleWords = () => {
     disptach({ type:'PLAY_AGAIN', payload: getInitialState() 
     });
   };
+
 
 
   //! Si ya no hay palabras para jugar, se muestra el mensaje de fin de juego
